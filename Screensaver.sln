@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2037
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Screensaver", "Screensaver\Screensaver.vcxproj", "{FE076C1D-2863-449A-8821-BDABD7C47D77}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE076C1D-2863-449A-8821-BDABD7C47D77}.Debug|x64.ActiveCfg = Debug|x64
+		{FE076C1D-2863-449A-8821-BDABD7C47D77}.Debug|x64.Build.0 = Debug|x64
+		{FE076C1D-2863-449A-8821-BDABD7C47D77}.Debug|x86.ActiveCfg = Debug|Win32
+		{FE076C1D-2863-449A-8821-BDABD7C47D77}.Debug|x86.Build.0 = Debug|Win32
+		{FE076C1D-2863-449A-8821-BDABD7C47D77}.Release|x64.ActiveCfg = Release|x64
+		{FE076C1D-2863-449A-8821-BDABD7C47D77}.Release|x64.Build.0 = Release|x64
+		{FE076C1D-2863-449A-8821-BDABD7C47D77}.Release|x86.ActiveCfg = Release|Win32
+		{FE076C1D-2863-449A-8821-BDABD7C47D77}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3627C755-73C3-4844-A2CF-D6A5E72BBE70}
+	EndGlobalSection
+EndGlobal
