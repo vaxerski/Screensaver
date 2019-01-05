@@ -1,14 +1,14 @@
 ﻿  main.cpp
-e:\dvd\screensaver\screensaver\main.cpp(61): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
-e:\dvd\screensaver\screensaver\main.cpp(113): warning C4244: "=": konwersja z "double" do "float", możliwa utrata danych
-e:\dvd\screensaver\screensaver\main.cpp(117): warning C4305: "=": obcięcie z "double" do "float"
-e:\dvd\screensaver\screensaver\main.cpp(120): warning C4244: "=": konwersja z "double" do "float", możliwa utrata danych
-e:\dvd\screensaver\screensaver\main.cpp(131): warning C4244: "=": konwersja z "unsigned int" do "float", możliwa utrata danych
-e:\dvd\screensaver\screensaver\main.cpp(132): warning C4244: "=": konwersja z "unsigned int" do "float", możliwa utrata danych
-e:\dvd\screensaver\screensaver\main.cpp(167): warning C4244: "=": konwersja z "int" do "float", możliwa utrata danych
+e:\dvd\screensaver\screensaver\main.cpp(65): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
+e:\dvd\screensaver\screensaver\main.cpp(132): warning C4244: "=": konwersja z "double" do "float", możliwa utrata danych
+e:\dvd\screensaver\screensaver\main.cpp(136): warning C4305: "=": obcięcie z "double" do "float"
+e:\dvd\screensaver\screensaver\main.cpp(139): warning C4244: "=": konwersja z "double" do "float", możliwa utrata danych
+e:\dvd\screensaver\screensaver\main.cpp(146): warning C4244: "=": konwersja z "double" do "float", możliwa utrata danych
+e:\dvd\screensaver\screensaver\main.cpp(157): warning C4244: "=": konwersja z "unsigned int" do "float", możliwa utrata danych
+e:\dvd\screensaver\screensaver\main.cpp(158): warning C4244: "=": konwersja z "unsigned int" do "float", możliwa utrata danych
+e:\dvd\screensaver\screensaver\main.cpp(193): warning C4244: "=": konwersja z "int" do "float", możliwa utrata danych
+e:\dvd\screensaver\screensaver\main.cpp(303): warning C4244: "argument": konwersja z "float" do "sf::Uint8", możliwa utrata danych
   Trwa generowanie kodu
-  1 of 491 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    3 functions had inline decision re-evaluated but remain unchanged
+  All 511 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Zakończono generowanie kodu
   Screensaver.vcxproj -> E:\dvd\Screensaver\Release\Screensaver.exe

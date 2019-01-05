@@ -13,6 +13,7 @@
 #include "INIReader.h"
 #include <fstream>  
 #include <winsock.h>
+#include <math.h>
 
 
 std::string sections(INIReader &reader)
@@ -41,15 +42,18 @@ int main()
 	bool changeCol = true;
 	int texX, texY;
 	float scaleS;
-
+	float rainbowH, rainbowS, rainbowV;
+	bool rainbow;
+	float reainbowSpeed;
 	velX = velY = 0.07f;
-
 	widX = 1920;
 	widY = 1080;
 
 	float startX, startY;
-
-
+	float r, g, b;
+	r = 255;
+	g = 0;
+	b = 0;
 
 	//--------------RANDOM CAPTION------------------//
 
@@ -75,7 +79,7 @@ int main()
 	if (reader.ParseError() < 0) {  //todo: auto generate default config
 		MessageBox(nullptr, TEXT("Couldn't locate config.ini, autogenerating default."), TEXT("Fatal Error"), MB_OK);
 		std::ofstream outfile("config.ini");
-		outfile << "[user]\nwidth = 1920                 ; Width of the window\nheight = 1080                 ; Height of the window\nchangeColours = true                 ; Changes sprite colour every bounce.\nspeed = 0.1                 ; Speed of the icon, default = 0.1\ntextureX = 600                 ; Width of the sprite\ntextureY = 400                 ; Height of the sprite\nscale = 2                 ; scale of the sprite, bigger scale = smaller sprite. Default = 2" << std::endl;
+		outfile << "[user]\nwidth = 1920                 ; Width of the window\nheight = 1080                 ; Height of the window\nchangeColours = true                 ; Changes sprite colour every bounce.\nspeed = 0.1                 ; Speed of the icon, default = 0.1\ntextureX = 600                 ; Width of the sprite\ntextureY = 400                 ; Height of the sprite\nscale = 2                 ; scale of the sprite, bigger scale = smaller sprite. Default = 2\nrainbow = false                 ; rainbow mode.\nrainbowSpeed = 2                 ; rainbow mode speed." << std::endl;
 		outfile.close();
 		MessageBox(nullptr, TEXT("File created, please restart Screensaver."), TEXT("Success!"), MB_OK);
 		return 0;
@@ -98,7 +102,7 @@ int main()
 	if (reader.Get("user", "changeColours", "UNDEFINED") == "true") {
 		changeCol = true;
 	}
-	else if(reader.Get("user", "changeColours", "UNDEFINED") == "false"){
+	else if (reader.Get("user", "changeColours", "UNDEFINED") == "false") {
 		changeCol = false;
 	}
 	else if (reader.Get("user", "changeColours", "UNDEFINED") == "UNDEFINED") {
@@ -108,6 +112,21 @@ int main()
 	else {
 		changeCol = false;
 		MessageBox(nullptr, TEXT("config.ini: unknown error parsing value changeColours."), TEXT("Warning"), MB_OK);
+	}
+
+	if (reader.Get("user", "rainbow", "UNDEFINED") == "true") {
+		rainbow = true;
+	}
+	else if (reader.Get("user", "rainbow", "UNDEFINED") == "false") {
+		rainbow = false;
+	}
+	else if (reader.Get("user", "rainbow", "UNDEFINED") == "UNDEFINED") {
+		rainbow = false;
+		MessageBox(nullptr, TEXT("config.ini: value rainbow is undefined."), TEXT("Warning"), MB_OK);
+	}
+	else {
+		rainbow = false;
+		MessageBox(nullptr, TEXT("config.ini: unknown error parsing value rainbow."), TEXT("Warning"), MB_OK);
 	}
 
 	velX = velY = reader.GetReal("user", "speed", 0);
@@ -120,6 +139,13 @@ int main()
 	scaleS = reader.GetReal("user", "scale", -1);
 	if (scaleS == -1) {
 		MessageBox(nullptr, TEXT("Could not initialize sprite: invalid scale"), TEXT("Fatal error"), MB_OK);
+		Sleep(3000);
+		return 0;
+	}
+
+	reainbowSpeed = reader.GetReal("user", "rainbowSpeed", -1);
+	if (reainbowSpeed == -1) {
+		MessageBox(nullptr, TEXT("Invalid rainbow speed."), TEXT("Fatal error"), MB_OK);
 		Sleep(3000);
 		return 0;
 	}
@@ -177,6 +203,17 @@ int main()
 	sprite.scale(sf::Vector2f(temp, temp));
 
 
+	sf::Text text;
+	sf::Font font;
+	if (!font.loadFromFile("font.ttf"))
+	{
+		return 0;
+	}
+	text.setFont(font);
+
+	text.setCharacterSize(24);
+
+
 
 
 	using namespace std::chrono;
@@ -193,6 +230,9 @@ int main()
 			window.create(sf::VideoMode(widX, widY), caption);
 			isFullscreen = true;
 			deGlitch = true;
+			rainbowH = 360;
+			rainbowS = 1;
+			rainbowV = 1;
 		}  //fix the time glitch, reload window once
 
 		sf::Event event;
@@ -231,11 +271,37 @@ int main()
 		spriteB = rand() % 255 + 1;
 
 		if (spriteR < 100 && spriteG < 100 && spriteB < 100) {
-			spriteR = 255;
+			spriteR = 200;
 		}
 
 		
+
+		
 		if (last + std::chrono::steady_clock::duration(1) < now) {
+			if (rainbow) {
+				if (r <= 255 && b == 0 && r != 0) {
+					r -= reainbowSpeed / 100;
+					g += reainbowSpeed / 100;
+				}
+				else if (g <= 255 && r == 0 && g != 0) {
+					g -= reainbowSpeed / 100;
+					b += reainbowSpeed / 100;
+				}
+				else if (b <= 255 && g ==0 && b != 0) {
+					b -= reainbowSpeed / 100;
+					r += reainbowSpeed / 100;
+				}
+
+				if (r > 255) r = 255;
+				if (g > 255) g = 255;
+				if (b > 255) b = 255;
+				if (r < 0) r = 0;
+				if (g < 0) g = 0;
+				if (b < 0) b = 0;
+
+
+				sprite.setColor(sf::Color(r, g, b));
+			}
 			if (sprite.getPosition().x >(widX - fixedX)) toBounceX = true;
 			if (sprite.getPosition().x < 0) toBounceX = true;
 			if (sprite.getPosition().y >(widY - fixedY)) toBounceY = true;
@@ -244,17 +310,21 @@ int main()
 
 			if (toBounceX) {
 				velX = -velX;
-				if(changeCol) sprite.setColor(sf::Color(spriteR, spriteG, spriteB));
+				if(changeCol && !rainbow) sprite.setColor(sf::Color(spriteR, spriteG, spriteB));
 				toBounceX = false;
 			}
 			if (toBounceY) {
 				velY = -velY;
-				if (changeCol) sprite.setColor(sf::Color(spriteR, spriteG, spriteB));
+				if (changeCol && !rainbow) sprite.setColor(sf::Color(spriteR, spriteG, spriteB));
 				toBounceY = false;
 			}
+
+			std::string maximus = "\nR:" + std::to_string(r) + "\nG:" + std::to_string(g) + "\nB:" + std::to_string(b);
+			text.setString(maximus);
 			window.clear();
 			sprite.move(velX, velY);
 			window.draw(sprite);
+		//	window.draw(text);
 			last = high_resolution_clock::now();
 			
 		}
