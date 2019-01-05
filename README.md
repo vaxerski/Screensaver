@@ -8,6 +8,8 @@ Change your sprite - Why only see the DVD icon? Change it to whatever png you wa
 
 Fullscreen/Windowed - View however you want. Use F11 to switch from one to another.
 
+single color, changing every bounce, or maybe rainbow? - change all of the stuff in the config.
+
 Bigger or smaller? - Change the sprite size whenever you want.
 
 Faster or slower? - Change the speed how you like.
@@ -24,4 +26,7 @@ speed - speed of the sprite
 
 scale - scale of the sprite (bigger scale = smaller sprite)
 
+rainbow - rainbow mode
+
+rainbowSpeed - rainbow mode speed.
 
