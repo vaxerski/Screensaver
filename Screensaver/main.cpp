@@ -45,6 +45,7 @@ int main()
 	float rainbowH, rainbowS, rainbowV;
 	bool rainbow;
 	float reainbowSpeed;
+	bool cornerCol;
 	velX = velY = 0.07f;
 	widX = 1920;
 	widY = 1080;
@@ -79,7 +80,7 @@ int main()
 	if (reader.ParseError() < 0) {  //todo: auto generate default config
 		MessageBox(nullptr, TEXT("Couldn't locate config.ini, autogenerating default."), TEXT("Fatal Error"), MB_OK);
 		std::ofstream outfile("config.ini");
-		outfile << "[user]\nwidth = 1920                 ; Width of the window\nheight = 1080                 ; Height of the window\nchangeColours = true                 ; Changes sprite colour every bounce.\nspeed = 0.1                 ; Speed of the icon, default = 0.1\ntextureX = 600                 ; Width of the sprite\ntextureY = 400                 ; Height of the sprite\nscale = 2                 ; scale of the sprite, bigger scale = smaller sprite. Default = 2\nrainbow = false                 ; rainbow mode.\nrainbowSpeed = 2                 ; rainbow mode speed." << std::endl;
+		outfile << "[user]\nwidth = 1920                 ; Width of the window\nheight = 1080                 ; Height of the window\nchangeColours = true                 ; Changes sprite colour every bounce.\ncornerColOnly = true      ; Changes sprite colour ONLY if it hits the corner.\nspeed = 0.1                 ; Speed of the icon, default = 0.1\ntextureX = 600                 ; Width of the sprite\ntextureY = 400                 ; Height of the sprite\nscale = 2                 ; scale of the sprite, bigger scale = smaller sprite. Default = 2\nrainbow = false                 ; rainbow mode.\nrainbowSpeed = 2                 ; rainbow mode speed." << std::endl;
 		outfile.close();
 		MessageBox(nullptr, TEXT("File created, please restart Screensaver."), TEXT("Success!"), MB_OK);
 		return 0;
@@ -149,6 +150,8 @@ int main()
 		Sleep(3000);
 		return 0;
 	}
+
+	cornerCol = reader.GetBoolean("user", "cornerColOnly", false);
 
 
 	std::uniform_int_distribution<uint32_t> rX(1, widX - widX/4);
@@ -307,15 +310,34 @@ int main()
 			if (sprite.getPosition().y >(widY - fixedY)) toBounceY = true;
 			if (sprite.getPosition().y < 0) toBounceY = true;
 
+			if (cornerCol) {
+				if (sprite.getPosition().x < 10 && sprite.getPosition().y >(widY - fixedY - 10)) {
+					//RUpCorner hit
+					sprite.setColor(sf::Color(spriteR, spriteG, spriteB));
+				}
+				if (sprite.getPosition().x < 10 && sprite.getPosition().y < 10) {
+					//RDownCorner hit
+					sprite.setColor(sf::Color(spriteR, spriteG, spriteB));
+				}
+				if (sprite.getPosition().x >(widX - fixedX - 10) && sprite.getPosition().y >(widX - fixedX - 10)) {
+					//LUpCorner hit
+					sprite.setColor(sf::Color(spriteR, spriteG, spriteB));
+				}
+				if (sprite.getPosition().x > (widX - fixedX - 10) && sprite.getPosition().y < 10) {
+					//LDownCorner hit
+					sprite.setColor(sf::Color(spriteR, spriteG, spriteB));
+				}
+			}
+
 
 			if (toBounceX) {
 				velX = -velX;
-				if(changeCol && !rainbow) sprite.setColor(sf::Color(spriteR, spriteG, spriteB));
+				if(changeCol && !rainbow && !cornerCol) sprite.setColor(sf::Color(spriteR, spriteG, spriteB));
 				toBounceX = false;
 			}
 			if (toBounceY) {
 				velY = -velY;
-				if (changeCol && !rainbow) sprite.setColor(sf::Color(spriteR, spriteG, spriteB));
+				if (changeCol && !rainbow && !cornerCol) sprite.setColor(sf::Color(spriteR, spriteG, spriteB));
 				toBounceY = false;
 			}
 
