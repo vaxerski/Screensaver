@@ -39,20 +39,20 @@ Faster or slower? - Change the speed how you like.
 # FAQ
 
 
-> Where do I suggest a feature or post a bug?
+> Where do I suggest a feature or post a bug?<br/>
 Use the "issues" tab for suggestions and/or bugs. Every bug counts and every suggestion
 is valuable.
 
-> Is this a virus?
+> Is this a virus?<br/>
 No, it's literally open source. If you don't trust me, check the source.
 
-> Can I use this for my own?
+> Can I use this for my own?<br/>
 Yes, you can. Credit is appreciated though. I hope you understand, i put my time and effort on this.
 
-> Can I modify this?
+> Can I modify this?<br/>
 Yes, of course.
 
-> Can I use this for commercial profit?
+> Can I use this for commercial profit?<br/>
 See question 3.
 
 
