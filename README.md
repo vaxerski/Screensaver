@@ -8,7 +8,7 @@ Change your sprite - Why only see the DVD icon? Change it to whatever png you wa
 
 Fullscreen/Windowed - View however you want. Use F11 to switch from one to another.
 
-Get satisfied - set cornerOnly in config to *true* for corner hitting overload.
+Get satisfied - set cornerOnly in config to **true** for corner hitting overload.
 
 Single color, changing every bounce, every corner bounce, or maybe rainbow? - change all of the stuff in the config.
 
@@ -18,21 +18,42 @@ Faster or slower? - Change the speed how you like.
 
 
 # Config
-width - width of the window
+`width` - width of the window
 
-height - height of the window
+`height` - height of the window
 
-changeColours - change colours when hit edge
+`changeColours` - change colours when hit edge
 
-cornerColOnly - change colour only when hit the corner
+`cornerColOnly` - change colour only when hit the corner
 
-cornerOnly - hit ONLY CORNERS *dabs from satisfaction*
+`cornerOnly` - hit ONLY CORNERS *dabs from satisfaction*
 
-speed - speed of the sprite
+`speed` - speed of the sprite
 
-scale - scale of the sprite (bigger scale = smaller sprite)
+`scale` - scale of the sprite (bigger scale = smaller sprite)
 
-rainbow - rainbow mode
+`rainbow` - rainbow mode
 
-rainbowSpeed - rainbow mode speed.
+`rainbowSpeed` - rainbow mode speed.
+
+# FAQ
+
+
+> Where do I suggest a feature or post a bug?
+Use the "issues" tab for suggestions and/or bugs. Every bug counts and every suggestion
+is valuable.
+
+> Is this a virus?
+No, it's literally open source. If you don't trust me, check the source.
+
+> Can I use this for my own?
+Yes, you can. Credit is appreciated though. I hope you understand, i put my time and effort on this.
+
+> Can I modify this?
+Yes, of course.
+
+> Can I use this for commercial profit?
+See question 3.
+
+
 
