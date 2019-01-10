@@ -46,6 +46,7 @@ int main()
 	bool rainbow;
 	float reainbowSpeed;
 	bool cornerCol;
+	bool cornerOnly;
 	velX = velY = 0.07f;
 	widX = 1920;
 	widY = 1080;
@@ -80,7 +81,7 @@ int main()
 	if (reader.ParseError() < 0) {  //todo: auto generate default config
 		MessageBox(nullptr, TEXT("Couldn't locate config.ini, autogenerating default."), TEXT("Fatal Error"), MB_OK);
 		std::ofstream outfile("config.ini");
-		outfile << "[user]\nwidth = 1920                 ; Width of the window\nheight = 1080                 ; Height of the window\nchangeColours = true                 ; Changes sprite colour every bounce.\ncornerColOnly = true      ; Changes sprite colour ONLY if it hits the corner.\nspeed = 0.1                 ; Speed of the icon, default = 0.1\ntextureX = 600                 ; Width of the sprite\ntextureY = 400                 ; Height of the sprite\nscale = 2                 ; scale of the sprite, bigger scale = smaller sprite. Default = 2\nrainbow = false                 ; rainbow mode.\nrainbowSpeed = 2                 ; rainbow mode speed." << std::endl;
+		outfile << "[user]\nwidth = 1920                 ; Width of the window\nheight = 1080                 ; Height of the window\nchangeColours = true                 ; Changes sprite colour every bounce.\ncornerColOnly = true      ; Changes sprite colour ONLY if it hits the corner.\nspeed = 0.1                 ; Speed of the icon, default = 0.1\ntextureX = 600                 ; Width of the sprite\ntextureY = 400                 ; Height of the sprite\nscale = 2                 ; scale of the sprite, bigger scale = smaller sprite. Default = 2\nrainbow = false                 ; rainbow mode.\nrainbowSpeed = 2                 ; rainbow mode speed.\ncornerOnly = false     ; hitting corner only mode" << std::endl;
 		outfile.close();
 		MessageBox(nullptr, TEXT("File created, please restart Screensaver."), TEXT("Success!"), MB_OK);
 		return 0;
@@ -152,6 +153,7 @@ int main()
 	}
 
 	cornerCol = reader.GetBoolean("user", "cornerColOnly", false);
+	cornerOnly = reader.GetBoolean("user", "cornerOnly", false);
 
 
 	std::uniform_int_distribution<uint32_t> rX(1, widX - widX/4);
@@ -215,6 +217,27 @@ int main()
 	text.setFont(font);
 
 	text.setCharacterSize(24);
+
+
+	//setup corner only, calculate aspect ratio and give proper speed
+
+	if (cornerOnly){
+		velY = (velX * (widY - fixedY)) / (widX - fixedX); //quick mafs
+
+		//what we basically did up here ^^^^^ is, we got our rect, the window, we got its real size (we subtracted sprite size for X and Y from the window (corner hit for 1080 width
+		//is NOT at 1080, but at 1080 - spriteY, because the coordinate point for sprite is at the left-top corner.)), and then we gave the sprite a speed, that its x/y = realX/realY
+		//while x = speed in config.
+
+
+		//left bottom corner, x=0.1, y=max - fixedY - 0.1  // WE USE THE FIXED VALUE FOR COORDS (!)
+		startX = 0.f;
+		startY = widY - fixedY;
+
+	}
+
+
+
+
 
 
 
@@ -331,22 +354,47 @@ int main()
 
 
 			if (toBounceX) {
+				if (cornerOnly) {
+					//correct position of the sprite
+					if (sprite.getPosition().x > widX / 2) {
+						sprite.setPosition(sf::Vector2f(0.f, widY - fixedY));
+					}
+					else {
+						sprite.setPosition(sf::Vector2f(widX - fixedX, 0.f));
+					}
+					
+				}
+
+
 				velX = -velX;
 				if(changeCol && !rainbow && !cornerCol) sprite.setColor(sf::Color(spriteR, spriteG, spriteB));
 				toBounceX = false;
 			}
 			if (toBounceY) {
+				if (cornerOnly) {
+					//correct position of the sprite
+					if (sprite.getPosition().x > widX / 2) {
+						sprite.setPosition(sf::Vector2f(0.f, widY - fixedY));
+					}
+					else {
+						sprite.setPosition(sf::Vector2f(widX - fixedX, 0.f));
+					}
+
+				}
+
+
+
 				velY = -velY;
 				if (changeCol && !rainbow && !cornerCol) sprite.setColor(sf::Color(spriteR, spriteG, spriteB));
 				toBounceY = false;
 			}
 
-			std::string maximus = "\nR:" + std::to_string(r) + "\nG:" + std::to_string(g) + "\nB:" + std::to_string(b);
+			std::string maximus = "\nX:" + std::to_string(sprite.getPosition().x) + "\nY:" + std::to_string(sprite.getPosition().y) + "\ntexX:" + std::to_string(texX) + "\ntexY:" + std::to_string(texY);
 			text.setString(maximus);
 			window.clear();
 			sprite.move(velX, velY);
 			window.draw(sprite);
-		//	window.draw(text);
+			window.draw(text);
 			last = high_resolution_clock::now();
 			
 		}
