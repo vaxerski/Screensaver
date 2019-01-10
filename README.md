@@ -8,6 +8,8 @@ Change your sprite - Why only see the DVD icon? Change it to whatever png you wa
 
 Fullscreen/Windowed - View however you want. Use F11 to switch from one to another.
 
+Get satisfied - set cornerOnly in config to *true* for corner hitting overload.
+
 Single color, changing every bounce, every corner bounce, or maybe rainbow? - change all of the stuff in the config.
 
 Bigger or smaller? - Change the sprite size whenever you want.
@@ -23,6 +25,8 @@ height - height of the window
 changeColours - change colours when hit edge
 
 cornerColOnly - change colour only when hit the corner
+
+cornerOnly - hit ONLY CORNERS *dabs from satisfaction*
 
 speed - speed of the sprite
 
